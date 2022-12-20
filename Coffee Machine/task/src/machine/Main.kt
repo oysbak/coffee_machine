@@ -1,6 +1,7 @@
 package machine
 
 fun main() {
+    CoffeeManager().start()/*
     println("Starting to make a coffee\n" +
             "Grinding coffee beans\n" +
             "Boiling water\n" +
@@ -8,4 +9,5 @@ fun main() {
             "Pouring coffee into the cup\n" +
             "Pouring some milk into the cup\n" +
             "Coffee is ready!")
+*/
 }
