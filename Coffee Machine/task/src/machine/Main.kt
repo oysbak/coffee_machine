@@ -1,5 +1,5 @@
 package machine
 
 fun main() {
-    CoffeeManager().start()
+    CoffeeMachine().run()
 }
