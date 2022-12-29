@@ -1,7 +1,5 @@
 package machine
 
-enum class State { IDLE, BUY, FILL_WATER, FILL_MILK, FILL_BEANS, FILL_CUPS }
-
 class CoffeeMachine {
     private var water: Int = 400
     private var milk: Int = 540
@@ -10,16 +8,17 @@ class CoffeeMachine {
     private var money: Int = 550
     private var state = State.IDLE
 
-    fun processInput(userInput: String) {
+    private enum class State { IDLE, BUY, FILL_WATER, FILL_MILK, FILL_BEANS, FILL_CUPS }
+
+    fun processInput(userInput: String): Boolean {
         when (state) {
-            State.IDLE ->
-                when (userInput) {
-                    "buy" -> state = State.BUY
-                    "fill" -> state = State.FILL_WATER
-                    "take" -> takeMoney()
-                    "remaining" -> printStatus()
-                    "exit" -> return
-                }
+            State.IDLE -> when (userInput) {
+                "buy" -> state = State.BUY
+                "fill" -> state = State.FILL_WATER
+                "take" -> takeMoney()
+                "remaining" -> printStatus()
+                "exit" -> return false
+            }
 
             State.BUY -> {
                 when (userInput) {
@@ -34,22 +33,27 @@ class CoffeeMachine {
                 this.water += userInput.toInt()
                 state = State.FILL_MILK
             }
+
             State.FILL_MILK -> {
                 this.milk += userInput.toInt()
                 state = State.FILL_BEANS
             }
+
             State.FILL_BEANS -> {
                 this.beans += userInput.toInt()
                 state = State.FILL_CUPS
             }
+
             State.FILL_CUPS -> {
                 this.cups += userInput.toInt()
                 state = State.IDLE
             }
         }
+        return true
     }
 
     private fun makeCoffee(water: Int, milk: Int, beans: Int, money: Int) {
+        state = State.IDLE
         if (cups < 1) {
             println("Sorry, not enough cups!")
             return
@@ -72,13 +76,11 @@ class CoffeeMachine {
         this.milk -= milk
         this.beans -= beans
         this.money += money
-        state = State.IDLE
     }
 
     private fun takeMoney() {
         println("I gave you \$$money")
         money = 0
-        state = State.IDLE
     }
 
     private fun printStatus() {
